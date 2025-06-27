@@ -23,17 +23,17 @@ interface IUser {
 /**
  * Sessions table interface
  */
-interface Session {
+interface ISession {
     gui_id: string; // UUID
     user_id: number;
     expires: Date;
-    completed: boolean;
+    //completed: boolean | null;
 }
 
 /**
  * Password resets table interface
  */
-interface PasswordReset {
+interface IPasswordReset {
     gui_id: string; // UUID
     user_id: number;
     expires: Date;
@@ -43,7 +43,7 @@ interface PasswordReset {
 /**
  * Posts table interface
  */
-interface Post {
+interface IPost {
     id: number;
     user_id: number;
     text: string;
@@ -54,7 +54,7 @@ interface Post {
 /**
  * Post attachments table interface
  */
-interface PostAttachment {
+interface IPostAttachment {
     id: number;
     post_id: number;
     path: string;
@@ -64,7 +64,7 @@ interface PostAttachment {
 /**
  * Post comments table interface
  */
-interface PostComment {
+interface IPostComment {
     id: number;
     user_id: number;
     post_id: number;
@@ -75,7 +75,7 @@ interface PostComment {
 /**
  * Post tags table interface (junction table)
  */
-interface PostTag {
+interface IPostTag {
     post_id: number;
     user_id: number;
 }
@@ -83,7 +83,7 @@ interface PostTag {
 /**
  * Friends table interface (junction table)
  */
-interface Friend {
+interface IFriend {
     friend_id: number;
     user_id: number;
 }
@@ -91,7 +91,7 @@ interface Friend {
 /**
  * Notifications table interface
  */
-  interface Notification {
+  interface INotification {
     id: number;
     created: Date;
     user_id: number;
@@ -104,13 +104,13 @@ interface Friend {
 export type {
     ValidationError,
     IUser,
-    Session,
-    PasswordReset,
-    Post,
-    PostAttachment,
-    PostComment,
-    PostTag,
-    Friend,
-    Notification,
+    ISession,
+    IPasswordReset,
+    IPost,
+    IPostAttachment,
+    IPostComment,
+    IPostTag,
+    IFriend,
+    INotification,
 }
 

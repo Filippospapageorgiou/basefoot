@@ -22,7 +22,7 @@ CREATE TABLE "data"."sessions" (
   "gui_id" uuid DEFAULT uuid_generate_v4(),
   "user_id" integer,
   "expires" timestamp NOT NULL DEFAULT (now() + interval '8 hour'),
-  "completed" boolean NOT NULL DEFAULT false,
+  "completed" boolean DEFAULT false,
   PRIMARY KEY ("gui_id", "user_id")
 );
 
