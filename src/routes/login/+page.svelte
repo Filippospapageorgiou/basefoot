@@ -12,7 +12,8 @@
         if(email.trim() === 'alert'){
             console.log("email " + email)
             toast.show = true;
-            toast.status = true;
+            toast.status = false;
+            toast.title = 'Test'
             toast.text = 'test'
         }
     })
