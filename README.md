@@ -24,4 +24,8 @@ npm install nodemailer
 npm install @types/nodemailer
 ```
 
+```bash
+npm install @lucide/svelte
+```
+
 ## Developing
