@@ -28,4 +28,8 @@ npm install @types/nodemailer
 npm install @lucide/svelte
 ```
 
+```bash
+ npm install sharp
+```
+
 ## Developing

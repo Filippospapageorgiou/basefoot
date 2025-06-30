@@ -3,28 +3,17 @@
     import Button from "$lib/components/ui/button/button.svelte";
     import Checkbox from "$lib/components/ui/checkbox/checkbox.svelte";
     import Input from "$lib/components/ui/input/input.svelte";
-    import { toast } from "$lib/stores/toast.svelte";
+    
     
     let email: string = $state('');
     let password: string = $state('');
-
-    $effect(() => {
-        if(email.trim() === 'alert'){
-            console.log("email " + email)
-            toast.show = true;
-            toast.status = false;
-            toast.title = 'Test'
-            toast.text = 'test'
-        }
-    })
 </script>
 
 <Navbar/>
-
 <div class="flex flex-col justify-center p-8">
     <div class="flex flex-col items-center justify-center space-y-2 pb-4">
         <p class=" text-2xl text-primary">Welcome to basefoot</p>
-        <p>Create an account and connect with other people</p>
+        <p>Welcome back</p>
     </div>
     <div class="space-y-4 pb-4">
         <div class="relative max-full">
@@ -64,6 +53,6 @@
     <Button>Login</Button>
     <div class="flex items-center gap-2 justify-center pt-4 text-gray-600">
         <a class="text-primary" href="/forgot">forgot password?</a> | 
-        <a class="text-primary" href="/create">Create an account</a>
+        <a class="text-primary" href="/create">create an account</a>
     </div>
 </div>

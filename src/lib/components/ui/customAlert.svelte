@@ -5,6 +5,27 @@
     import { toast } from "$lib/stores/toast.svelte";
     import { fade, fly } from "svelte/transition";
     import { quintOut } from "svelte/easing";
+
+     
+    let timeoutId: ReturnType<typeof setTimeout>;
+
+    $effect(() => {
+        if (toast.show) {
+            
+            clearTimeout(timeoutId);
+
+            timeoutId = setTimeout(() => {
+                toast.show = false;
+            }, 3000);
+        }
+    });
+
+    $effect(() => {
+        return () => {
+            clearTimeout(timeoutId);
+        };
+    });
+
 </script>
 
 {#if toast.show}
