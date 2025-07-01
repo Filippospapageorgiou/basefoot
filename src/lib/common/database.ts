@@ -3,6 +3,7 @@ import { DB_HOST,
     DB_NAME,
     DB_USER,
     DB_PASSWORD,
+    DB_PORT,
 } from '$env/static/private'
 
 export const DB = () => {
@@ -11,6 +12,7 @@ export const DB = () => {
             const pool = new Pool({
                 host: DB_HOST,
                 user: DB_USER,
+                port: parseInt(DB_PORT || '5432'),
                 password: DB_PASSWORD,
                 database: DB_NAME,
             })

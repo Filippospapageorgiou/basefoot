@@ -1,7 +1,12 @@
 import type { PageServerLoad } from './$types';
-import {fail, type Actions } from '@sveltejs/kit';
+import {fail,redirect, type Actions } from '@sveltejs/kit';
 import type { IUser } from '$lib/interfaces';
+import { writeFileSync } from 'fs';
+import path from 'path'; 
 import sharp from 'sharp';
+import { PUBLIC_IMAGE_PATH } from '$env/static/public';
+import { User } from '$lib/server/user';
+import { Session } from '$lib/server/session';
 
 export const load = (async () => {
     return {};
@@ -15,7 +20,7 @@ export const actions = {
         const name = (data.get('name')?? '').toString();
         const location = (data.get('location') ?? '').toString();
         const occupation = (data.get('occupation')??'').toString();
-        const email = (data.get('eamil')??'').toString();
+        const email = (data.get('email')??'').toString();
         const password = (data.get('password')??'').toString();
         
 
@@ -33,9 +38,16 @@ export const actions = {
             const read = Math.floor(1000 + Math.random() * 9000);
             const file_name = file.name.replace('.'+ext,'')+'_'+read+ext;
 
-            //resize image
-            //todo 22:54
-            const buffer = await sharp
+            
+            const buffer = await sharp(Buffer.from(await file.arrayBuffer()))
+            .resize({width:600})
+            .toBuffer()
+            .then(data => {
+                return data
+            });
+            //save image to sevrer not static folder
+            writeFileSync(PUBLIC_IMAGE_PATH+file_name, buffer);
+            avatar_path = file_name;
         }
 
         const user:IUser = {
@@ -44,11 +56,30 @@ export const actions = {
             occupation,
             email,
             id:0,
-            avatar_path:'',
-            created_at: new Date(),
-            updated_at: null
+            avatar_path,
         }
 
+        console.log(user);
+        const readUser = await User().insert(user, password);
+        if('error' in readUser){
+            return fail(400, { message: readUser.error, status:false });
+        }
+
+        const session = await Session().insert(readUser.id);
+        if('error' in session){
+            return fail(400, { message: session.error, status:false });
+        }
+
+        //set cookies
+        cookies.set(
+            'basefoot',
+            session.gui_id,{
+                path:'/',
+                maxAge:60*60*8
+            }
+        )
+        redirect(303,'/');
     }
 
 } satisfies Actions;
+

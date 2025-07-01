@@ -16,8 +16,6 @@ interface IUser {
     location: string;
     occupation: string;
     avatar_path: string;
-    created_at: Date;
-    updated_at: Date | null;
 }
 
 /**

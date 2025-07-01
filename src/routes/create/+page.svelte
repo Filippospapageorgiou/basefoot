@@ -3,7 +3,10 @@
     import Button from "$lib/components/ui/button/button.svelte";
     import Input from "$lib/components/ui/input/input.svelte";
     import * as Avatar from "$lib/components/ui/avatar/index.js";
-  import { enhance } from "$app/forms";
+    import { enhance } from "$app/forms";
+    import { toast } from "$lib/stores/toast.svelte";
+
+    let {form} = $props();
 
     let files:FileList | undefined = $state();
     let backgorundImage = $state('');
@@ -19,7 +22,16 @@
         }
     })
 
-
+    $effect(() =>{
+        if(form?.message){
+            if(!form.status){
+                toast.show = true;
+                toast.status = false;
+                toast.title = 'Error try again';
+                toast.text = form.message;
+            }
+        }
+    })
 
 </script>
 
@@ -45,7 +57,7 @@
         </div>
         <div class="flex gap-3">
             <Input class="basis-1/2" type="email" name="email" placeholder="email" />
-            <Input class="basis-1/2" type="password" name="password" placeholder="*******" />
+            <Input class="basis-1/2" type="password" name="password" placeholder="create password" />
         </div>
         <div class="flex items-center gap-3">
             <Avatar.Root class="w-30 h-30">

@@ -1,5 +1,5 @@
 <script lang="ts">
-  //todo 14:59 video
+  //todo 26:10 video
     
 </script>
 

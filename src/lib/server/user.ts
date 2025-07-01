@@ -6,16 +6,16 @@ export const User = () => {
     //validation user helper method
     const checkRequireElements = (object: IUser): void | ValidationError => {
         if(object.name.trim() === ''){
-            return {error:'Please all requested fields'}
+            return {error:'Please fill all requested fields'}
         }
         if(object.email.trim() === ''){
-            return {error:'Please all requested fields'}
+            return {error:'Please fill all requested fields'}
         }
         if(object.occupation.trim() === ''){
-            return {error:'Please all requested fields'}
+            return {error:'Please fill all requested fields'}
         }
         if(object.location.trim() === ''){
-            return {error:'Please all requested fields'}
+            return {error:'Please fill all requested fields'}
         }
     }
 
@@ -28,8 +28,6 @@ export const User = () => {
                 location:row.location,
                 occupation:row.occupation,
                 avatar_path:row.avatar_path,
-                created_at:row.created_at,
-                updated_at:row.updated_at
             }
             return object;
         },
