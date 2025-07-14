@@ -65,14 +65,17 @@ export const User = () => {
                     email = $1,
                     name = $2,
                     location = $3,
-                    occupation = $4
-                    where id = $5
+                    occupation = $4,
+                    avatar_path = $5
+                    where id = $6
+                    returning *
             `;
             const response = await DB().qeuery(sql,[
                 object.email,
                 object.name,
                 object.location,
                 object.occupation,
+                object.avatar_path,
                 object.id
             ]);
 

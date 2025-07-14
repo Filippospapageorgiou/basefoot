@@ -2,7 +2,7 @@ import { Session } from "$lib/server/session";
 import { User } from "$lib/server/user";
 import { redirect } from "@sveltejs/kit";
 
-export async function handler({event, resolve}) {
+export async function handle({event, resolve}) {
 
     const gui_id = event.cookies.get('basefoot');
     if(gui_id){
@@ -25,7 +25,6 @@ export async function handler({event, resolve}) {
         //user is not signed in and trying to reach news feed
         throw redirect(303,'/login');
     }
-
 
     return await resolve(event);   
 }

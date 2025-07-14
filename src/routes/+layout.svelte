@@ -1,6 +1,7 @@
 <!-- layout.svelte -->
 <script lang="ts">
 	import CustomAlert from '$lib/components/ui/customAlert.svelte';
+	import Loader from '$lib/components/ui/loader.svelte';
 	import { page } from '$app/state';
 	import '../app.css';
 	
@@ -8,6 +9,7 @@
 </script>
 
 <CustomAlert />
+<Loader />
 <div class="bg-[url('Gunmetal.jpeg')] h-svh w-full bg-cover bg-center flex items-center justify-center">
 	<div class="w-full max-w-[700px]">
 		<div class="text-primary text-4xl font-bold h-[60px] flex items-center">

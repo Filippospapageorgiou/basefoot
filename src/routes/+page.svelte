@@ -1,4 +1,3 @@
-<!-- Your header component -->
 <script lang="ts">
   import Input from "$lib/components/ui/input/input.svelte";
   import * as Avatar from "$lib/components/ui/avatar/index.js";
@@ -19,21 +18,30 @@
                 toast.status = false;
                 toast.title = 'Error try again';
                 toast.text = form.message;
+            } else if(form.status) {
+                // Force avatar refresh on successful update
+                avatarKey = Date.now();
+                toast.show = true;
+                toast.status = true;
+                toast.title = 'Success';
+                toast.text = form.message;
             }
         }
     })
  
   let files: FileList | undefined = $state();
-  let backgorundImage = $state("");
+  let backgroundImage = $state("");
+  let avatarKey = $state(Date.now()); // Force refresh key
+
   $effect(() => {
     if (files && files[0]) {
       const reader = new FileReader();
       reader.addEventListener("load", () => {
-        backgorundImage = reader.result?.toString() || "";
+        backgroundImage = reader.result?.toString() || "";
       });
       reader.readAsDataURL(files[0]);
     } else {
-      backgorundImage = "";
+      backgroundImage = "";
     }
   });
 
@@ -41,6 +49,8 @@
   const toggleMenu = () => {
     menuOpen = !menuOpen;
   };
+
+  let avatarUrl = $derived(`/photos/${data.user.id}?v=${avatarKey}`);
 </script>
 
 <div class="flex items-center justify-between w-full mb-6">
@@ -61,7 +71,7 @@
       class="rounded-full hover:ring-2 hover:ring-blue-300 transition-all cursor-pointer"
     >
       <Avatar.Root class="w-12 h-12">
-        <Avatar.Image src={`/photos/${data.user.id}`} alt="user upload photo" />
+        <Avatar.Image src={avatarUrl} alt="user upload photo" />
         <Avatar.Fallback>U</Avatar.Fallback>
       </Avatar.Root>
     </button>
@@ -128,13 +138,13 @@
           </div>
           <div class="flex items-center gap-3">
             <Avatar.Root class="w-30 h-30">
-              <Avatar.Image src={backgorundImage} alt="user upload photo" />
+              <Avatar.Image src={backgroundImage || avatarUrl} alt="user upload photo" />
               <Avatar.Fallback>U</Avatar.Fallback>
             </Avatar.Root>
             <input
               bind:files
               type="file"
-              accept="image/png:image/jpeg"
+              accept="image/png,image/jpeg"
               name="avatar"
               class="cursor-pointer text-sm"
             />
@@ -144,18 +154,17 @@
       </div>
     </form>
     <a
-      class="flex items-center gap-3 font-bold cursor-pointer p-2 roundend-lg
+      class="flex items-center gap-3 font-bold cursor-pointer p-2 rounded-lg
     hover:bg-gray-100 text-blue-400"
       href="/logout"
     >
-      <!--31:20-->
       <Icon onclick={() => {}}>
         <LogOut />
       </Icon>
       Log out
     </a>
     <a
-      class="flex items-center gap-3 font-bold cursor-pointer p-2 roundend-lg
+      class="flex items-center gap-3 font-bold cursor-pointer p-2 rounded-lg
     hover:bg-gray-100 text-blue-400"
       href="/change"
     >
@@ -166,4 +175,3 @@
     </a>
   </div>
 {/if}
-
