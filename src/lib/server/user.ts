@@ -90,6 +90,14 @@ export const User = () => {
                 return result;
             }
 
+            const sqlExistsEmail = `SELECT id FROM data.users WHERE email = $1`;
+            const existingEmail = await DB().qeuery(sqlExistsEmail, [object.email]);
+    
+            if(existingEmail.length > 0){
+                return {error: 'A user with this email already exists'};
+            }
+            
+
             const sql = `
                 insert into data.users
                 (email,hash_password,name,location,occupation, avatar_path)
@@ -107,7 +115,7 @@ export const User = () => {
             ]);
 
             if(!response[0]){
-                throw new Error('unable to update record')
+                throw new Error('unable to insert record')
             }
 
             return api.generateObject(response[0]);

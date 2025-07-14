@@ -36,7 +36,7 @@ export const actions = {
                     fail(400,{message:'Image must be jpeg, jpg or png'})
                 }
             const read = Math.floor(1000 + Math.random() * 9000);
-            const file_name = file.name.replace('.'+ext,'')+'_'+read+ext;
+            const file_name = file.name.replace('.'+ext,'')+'_'+read+'.'+ext;
 
             
             const buffer = await sharp(Buffer.from(await file.arrayBuffer()))
