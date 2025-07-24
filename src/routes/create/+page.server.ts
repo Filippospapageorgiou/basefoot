@@ -59,7 +59,7 @@ export const actions = {
             avatar_path,
         }
 
-        console.log(user);
+        
         const readUser = await User().insert(user, password);
         if('error' in readUser){
             return fail(400, { message: readUser.error, status:false });

@@ -44,6 +44,42 @@ export const User = () => {
             return results
         },
 
+        getFriends: async (id: number): Promise<Array<IUser>> => {
+            const results: IUser[] = [];
+    
+            // Friends added by the user
+            const sql = `
+                SELECT users.*
+                FROM data.friends
+                INNER JOIN data.users ON users.id = friends.friend_id
+                WHERE friends.user_id = $1`;
+
+            const response = await DB().qeuery(sql, [id]);
+    
+             for (const row of response) {
+                const record = api.generateObject(row);
+                results.push(record); 
+            }
+
+            // Friends who added the user (bidirectional friendship)
+            const sql2 = `
+                SELECT users.*
+                FROM data.friends
+                INNER JOIN data.users ON users.id = friends.user_id
+                 WHERE friends.friend_id = $1`;
+
+            const response2 = await DB().qeuery(sql2, [id]);
+    
+            for (const row of response2) {
+                const record = api.generateObject(row);
+                if (!results.find(user => user.id === record.id)) {
+                    results.push(record);
+                }
+            }
+            return results; 
+        },
+
+
         //get single user
         getSingle:async(id:number): Promise<IUser | void> => {
             const sql = `SELECT * FROM data.users where id = $1`;
@@ -93,7 +129,7 @@ export const User = () => {
                 return result;
             }
 
-            const sqlExistsEmail = `SELECT id FROM data.users WHERE email = $1`;
+            const sqlExistsEmail = `SELECT id FROM data.users WHERE lower(email) = lower($1)`;
             const existingEmail = await DB().qeuery(sqlExistsEmail, [object.email]);
     
             if(existingEmail.length > 0){

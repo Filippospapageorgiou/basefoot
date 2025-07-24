@@ -21,7 +21,11 @@ export const actions = {
 
         if(!email || email.toString().trim() === '' ||
             !password || password.toString().trim() === ''){
-                return fail(400,{message:"Please provide email and password"});
+                return fail(400,
+                    {
+                        message:"Please provide email and password",
+                        status:false
+                    });
         }
 
         //create sql get user id back
@@ -39,7 +43,7 @@ export const actions = {
         //create session
         const session = await Session().insert(user_id);
         if('error' in session){
-            return fail(400,{message:session.error});
+            return fail(400,{message:session.error,status:false});
         }
 
         //set the cookies

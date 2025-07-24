@@ -35,7 +35,6 @@
 
 </script>
 
-<Navbar/>
 <form action="?/create" method="post" use:enhance enctype="multipart/form-data">
     <div class="flex flex-col justify-center p-8">
     <div class="flex flex-col items-center justify-center space-y-2 pb-4">

@@ -4,12 +4,23 @@
   import Button from "$lib/components/ui/button/button.svelte";
   import Checkbox from "$lib/components/ui/checkbox/checkbox.svelte";
   import Input from "$lib/components/ui/input/input.svelte";
+  import { toast } from "$lib/stores/toast.svelte";
+
+  let {form} = $props();
+
+  $effect(() =>{
+        if(form?.message){
+              toast.show = true;
+              toast.status = false;
+              toast.title = 'Error';
+              toast.text = form.message;
+        }
+    })
 
   let email: string = $state("");
   let password: string = $state("");
 </script>
 
-<Navbar />
 <form action="?/login" method="post" use:enhance>
   <div class="flex flex-col justify-center p-8">
     <div class="flex flex-col items-center justify-center space-y-2 pb-4">
